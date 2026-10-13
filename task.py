@@ -137,6 +137,50 @@ def count_connected_components(edges: list) -> int:
 
 def compute_topological_sort(directed_edges: list) -> list:
     """Sub-task 4: Compute a topological ordering of nodes in a DAG."""
+    from collections import defaultdict, deque
+
+    class Graph:
+        def __init__(self, vertices):
+            self.graph = defaultdict(list)
+            self.V = vertices
+
+        def addEdge(self, u, v):
+            self.graph[u].append(v)
+
+        # Function to perform Kahn's Algorithm
+        def topologicalSort(self):
+            in_degree = [0] * self.V  # Count of incoming edges for each vertex
+
+            # Calculate in-degree for each vertex
+            for u in self.graph:
+                for v in self.graph[u]:
+                    in_degree[v] += 1
+
+            # Queue for vertices with 0 in-degree
+            queue = deque([i for i in range(self.V) if in_degree[i] == 0])
+            topo_order = []
+
+            while queue:
+                u = queue.popleft()
+                topo_order.append(u)
+
+                # Decrease in-degree for adjacent vertices
+                for v in self.graph[u]:
+                    in_degree[v] -= 1
+                    if in_degree[v] == 0:
+                        queue.append(v)
+
+            print(topo_order)
+
+    g = Graph(6)
+    g.addEdge(5, 2)
+    g.addEdge(5, 0)
+    g.addEdge(4, 0)
+    g.addEdge(4, 1)
+    g.addEdge(2, 3)
+    g.addEdge(3, 1)
+
+    g.topologicalSort()
     pass
 
 def compute_average_clustering(edges: list) -> float:
