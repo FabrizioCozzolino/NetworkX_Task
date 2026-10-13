@@ -185,6 +185,19 @@ def compute_topological_sort(directed_edges: list) -> list:
 
 def compute_average_clustering(edges: list) -> float:
     """Sub-task 5: Compute the average clustering coefficient of an undirected graph."""
+    import networkx as nx
+
+    G = nx.Graph()
+
+    G.add_edges_from([('A', 'B'), ('A', 'K'), ('B', 'K'), ('A', 'C'),
+                      ('B', 'C'), ('C', 'F'), ('F', 'G'), ('C', 'E'),
+                      ('E', 'F'), ('E', 'D'), ('E', 'H'), ('I', 'J')])
+
+    # returns a Dictionary with clustering value of each node
+    print(nx.clustering(G))
+
+    # This returns clustering value of specified node
+    print(nx.clustering(G, 'C'))
     pass
 
 def main():
