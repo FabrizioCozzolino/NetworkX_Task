@@ -1,4 +1,5 @@
 import math
+from collections import deque
 
 import networkx as nx
 
@@ -112,6 +113,26 @@ def find_shortest_path(edges: list, source: str, target: str) -> list:
 
 def count_connected_components(edges: list) -> int:
     """Sub-task 3: Count the number of connected components in an undirected graph."""
+
+    def bfs(node, graph, visited):
+        queue = deque([node])
+        visited.add(node)
+
+        while queue:
+            current_node = queue.popleft()
+            for neighbor in graph[current_node]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append(neighbor)
+
+    def count_components(graph):
+        visited = set()
+        components = 0
+        for node in graph:
+            if node not in visited:
+                bfs(node, graph, visited)
+                components += 1
+        return components
     pass
 
 def compute_topological_sort(directed_edges: list) -> list:
